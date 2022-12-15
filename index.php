@@ -250,7 +250,7 @@
                         <div class="card-body">
                           <img src="img/arya.png" alt="" class="w-60 img-fluid rounded-circle">
                         <h3 class="card-title py-2">Achmad Zakariya</h3>
-                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.</p>
+                        <p class="card-text">Mahasiswa santuy </p>
                         <p class="socials">
                         </p>
                         </div>
