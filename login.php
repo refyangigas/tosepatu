@@ -1,3 +1,8 @@
+<?php
+include "./connection/koneksi.php";
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -402,3 +407,78 @@
 </body>
 
 </html>
+
+
+<?php
+if (isset($_POST['login'])) {
+  //anti inject sql
+  $username = mysqli_real_escape_string($koneksi, $_POST['username']);
+  $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+
+  //query login
+  $sql_login = "SELECT * FROM tb_user WHERE username='$username' AND password='$password'";
+  $query_login = mysqli_query($koneksi, $sql_login);
+  $data_login = mysqli_fetch_array($query_login, MYSQLI_BOTH);
+  $jumlah_login = mysqli_num_rows($query_login);
+
+
+  if ($jumlah_login == 1) {
+
+    $_SESSION["ses_id"] = $data_login["id"];
+    $_SESSION["ses_nama"] = $data_login["nama"];
+    $_SESSION["ses_username"] = $data_login["username"];
+    $_SESSION["ses_password"] = $data_login["password"];
+    $_SESSION["ses_role"] = $data_login["role"];
+
+    echo "<script>
+		Swal.fire({title: '$data_login[nama] Berhasil Login',text: '',icon: 'success',confirmButtonText: 'OK'
+		}).then((result) => {if (result.value)
+			{window.location = './pages/dashboard.php';}
+		})</script>";
+  } else {
+
+    echo "<script>
+			Swal.fire({title: 'Login Gagal',text: '',icon: 'error',confirmButtonText: 'OK'
+			}).then((result) => {if (result.value)
+				{window.location = 'login.php';}
+			})</script>";
+  }
+}
+
+?>
+
+<?php
+if (isset($_POST['register'])) {
+
+  $namaUser = $_POST['regis-nama'];
+  $usernameUser = $_POST['regis-username'];
+  $userPassword = $_POST['regis-password'];
+
+  //anti inject sql
+  // $username = mysqli_real_escape_string($koneksi, $_POST['username']);
+  // $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+
+  //query register
+
+  $sql_register = "INSERT INTO tb_user SET nama = '$namaUser', username = '$usernameUser', password = '$userPassword', role = '2'";
+  $query_register = mysqli_query($koneksi, $sql_register);
+  // $data_login = mysqli_fetch_array($query_login, MYSQLI_BOTH);
+  // $jumlah_login = mysqli_num_rows($query_login);
+
+
+  if ($query_register) {
+
+    echo "<script>
+		Swal.fire({title: 'Register Behasil',text: '',icon: 'success',confirmButtonText: 'OK'
+		}).then((result) => {if (result.value)
+			{window.location = 'login.php';}
+		})</script>";
+  } else {
+
+    echo "<script>
+			Swal.fire({title: 'Register Gagal',text: '',icon: 'error',confirmButtonText: 'OK'
+			}).then((result) => {if (result.value)
+				{window.location = 'signup.php';}
+			})</script>";
+  }
+}
