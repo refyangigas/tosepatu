@@ -259,7 +259,7 @@
                 <div class="col-5 col-md-2 col-lg-2">
                     <div class="card text-center">
                         <div class="card-body">
-                          <img src="img/bangla.jpeg" alt="" class="w-60 img-fluid rounded-circle">
+                          <img src="img/bangla.jpg" alt="" class="w-60 img-fluid rounded-circle">
                         <h3 class="card-title py-2">Ahmad Maulana Subandrio</h3>
                         <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.</p>
                         <p class="socials">
@@ -301,7 +301,7 @@
       <!-- footer starts -->
       <footer class="bg-dark p-2 text-center">
           <div class="container">
-              <p class="text-white"><i class="bi bi-instagram text-white mx-1"></i>@tosepatu.kc</p>
+              <p class="text-white"></i> IG: @tosepatu.kc | WA: 089653172111</p>
           </div>
       </footer>
       <!-- footer ends -->
