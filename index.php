@@ -74,8 +74,8 @@
             <img src="img/sepatu-3.jpg" class="d-block w-100" alt="...">
             <div class="carousel-caption">
               <h5>Jasa Layanan Cuci Sepatu</h5>
-              <p>Apa itu TOSEPATU? Yuk cari tahu</p>
-              <p><a href="#about" class="btn btn-warning mt-3">Tentang Kami</a></p>
+              <p>Apa saja sih layanan di TOSEPATU? Yuk cari tahu</p>
+              <p><a href="#services" class="btn btn-warning mt-3">Layanan</a></p>
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@
                 <img class="card-img-top ms-auto" src="img/services2.png" class = "img-fluid" alt="Card image">
                 <div class="card-body">
                   <h5 class="card-title">Deep Clean for White Shoes</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <p class="card-text">Bersihkan midsole,upper,outside,noda tali sepatu dan berbagai keluhan lainnya khusus sepatu warna putih </p>
                   <a href="login.php" class="btn btn-warning">Order</a>
                 </div>
               </div>
@@ -182,7 +182,7 @@
                               <img src="img/testimoni1.jpeg" class="img-fluid" alt="">
                           </div>
                             <h3 class="card-title">Ardela Setya Maharani</h3>
-                            <p class="lead">"Tysm TOSEPATU dapet harga 10k sepatu jadi wangi dan bersih"</p>
+                            <p class="lead">"Tysm TOSEPATU dapet harga 10k, sepatu jadi wangi dan bersih"</p>
                         </div>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
                               <img src="img/testimoni2.jpeg" class="img-fluid" alt="">
                           </div>
                             <h3 class="card-title">Adhimas Rayhan Tritama</h3>
-                            <p class="lead">"Layanan cuci sepatu tergokil di jember bro, keren"</p>
+                            <p class="lead">"Layanan cuci sepatu tergokil di jember bro, keren!"</p>
                         </div>
                     </div>
                 </div>
