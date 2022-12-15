@@ -74,7 +74,7 @@
             <img src="img/sepatu-3.jpg" class="d-block w-100" alt="...">
             <div class="carousel-caption">
               <h5>Jasa Layanan Cuci Sepatu</h5>
-              <p>Apa saja sih layanan di TOSEPATU? Yuk cari tahu</p>
+              <p>Apa saja sih layanan di TOSEPATU? Yuk cari tahu!</p>
               <p><a href="#services" class="btn btn-warning mt-3">Layanan</a></p>
             </div>
           </div>
@@ -95,7 +95,7 @@
               <div class="row">
                   <div class="col-lg-4 col-md-12 col-12">
                       <div class="about-img">
-                          <img src="img/about-1.jpg" alt="" class="img-fluid">
+                          <img src="img/about2.jpeg" alt="" class="img-fluid">
                       </div>
                   </div>
                   <div class="col-lg-8 col-md-12 col-12 ps-lg-5 mt-md-5">
@@ -248,7 +248,7 @@
                 <div class="col-5 col-md-2 col-lg-2">
                     <div class="card text-center">
                         <div class="card-body">
-                          <img src="img/refyan.jpg" alt="" class="w-60 img-fluid rounded-circle">
+                          <img src="img/arya.png" alt="" class="w-60 img-fluid rounded-circle">
                         <h3 class="card-title py-2">Achmad Zakariya</h3>
                         <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.</p>
                         <p class="socials">
@@ -259,7 +259,7 @@
                 <div class="col-5 col-md-2 col-lg-2">
                     <div class="card text-center">
                         <div class="card-body">
-                          <img src="img/refyan.jpg" alt="" class="w-60 img-fluid rounded-circle">
+                          <img src="img/bangla.jpeg" alt="" class="w-60 img-fluid rounded-circle">
                         <h3 class="card-title py-2">Ahmad Maulana Subandrio</h3>
                         <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.</p>
                         <p class="socials">
@@ -273,7 +273,7 @@
                         <div class="card-body">
                             <img src="img/akbar.jpeg" alt="" class="w-60 img-fluid rounded-circle">
                         <h3 class="card-title py-2">Akbar Kusnadi</h3>
-                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.</p>
+                        <p class="card-text">Mahasiswa aktif semester 3 di Politeknik Negeri Jember. Hobi menjelajah dan menyelam informasi seputar teknologi dan games. memotivasi diri untuk selalu berkembang.</p>
                         <p class="socials">
                         </p>
                         </div>
@@ -283,7 +283,7 @@
                     <div class="col-5 col-md-2 col-lg-2">
                       <div class="card text-center">
                           <div class="card-body">
-                            <img src="img/refyan.jpg" alt="" class="w-60 img-fluid rounded-circle">
+                            <img src="img/daffa.jpg" alt="" class="w-60 img-fluid rounded-circle">
                           <h3 class="card-title py-2">Daffa Fauzi Rahman</h3>
                           <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.</p>
                           <p class="socials">
