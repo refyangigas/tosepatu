@@ -248,9 +248,9 @@
                 <div class="col-5 col-md-2 col-lg-2">
                     <div class="card text-center">
                         <div class="card-body">
-                          <img src="img/arya.png" alt="" class="w-60 img-fluid rounded-circle">
+                          <img src="img/arya.jpeg" alt="" class="w-60 img-fluid rounded-circle">
                         <h3 class="card-title py-2">Achmad Zakariya</h3>
-                        <p class="card-text">Mahasiswa santuy </p>
+                        <p class="card-text">Mahasiswa Politeknik Negeri Jember Program Studi Teknik Informatika. Saya menyukai tantangan dan mempelajari hal baru dalam bidang apapun khususnya IT "Keep calm and stay foolish"</p>
                         <p class="socials">
                         </p>
                         </div>
@@ -261,7 +261,7 @@
                         <div class="card-body">
                           <img src="img/bangla.jpg" alt="" class="w-60 img-fluid rounded-circle">
                         <h3 class="card-title py-2">Ahmad Maulana Subandrio</h3>
-                        <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.</p>
+                        <p class="card-text">Mahasiswa aktif D3 yang suka bersosialisasi, kopi, dan senja di akhir hari "Jangan menaruh kepercayaan 100% kepada orang lain saya sendiri tidak percaya pada diri sendiri" </p>
                         <p class="socials">
                         </p>
                         </div>
@@ -285,7 +285,7 @@
                           <div class="card-body">
                             <img src="img/daffa.jpg" alt="" class="w-60 img-fluid rounded-circle">
                           <h3 class="card-title py-2">Daffa Fauzi Rahman</h3>
-                          <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.</p>
+                          <p class="card-text">Mahasiswa Politeknik Negeri Jember yang suka beorganisasi,bersosialisasi. "You will fall but you will grow."</p>
                           <p class="socials">
                           </p>
                           </div>
