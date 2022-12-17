@@ -1,3 +1,12 @@
+<?php
+include "./connection/koneksi.php";
+session_start();
+
+// if (isset($_SESSION["ses_username"]) != '') {
+//   header("location: login.php");
+// }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -385,3 +394,48 @@ h6 span {
 </body>
 
 </html>
+
+<?php
+
+$namaUser = $_POST['username'];
+$userPassword = $_POST['new-password'];
+$userRePassword = $_POST['new-re-password'];
+
+
+if (isset($_POST['change-password'])) {
+
+  $cekusername = "SELECT username FROM tb_user WHERE username = '$namaUser'";
+  $result = mysqli_query($koneksi, $cekusername);
+  $row = mysqli_fetch_array($result, MYSQLI_BOTH);
+  $jumlah_login = mysqli_num_rows($result);
+
+  if ($jumlah_login == 1) {
+
+    if ($userPassword == $userRePassword) {
+
+      $ubahpassword = "UPDATE tb_user set password = '$userPassword' where username= '$namaUser'";
+      $result = mysqli_query($koneksi, $ubahpassword);
+
+      echo "<script>
+      Swal.fire({title: 'Password Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+      }).then((result) => {if (result.value)
+        {window.location = 'login.php';}
+      })</script>";
+    } else {
+
+      echo "<script>
+      Swal.fire({title: 'Password Tidak Sama',text: '',icon: 'error',confirmButtonText: 'OK'
+      }).then((result) => {if (result.value)
+        {window.location = 'reset_password.php';}
+      })</script>";
+    }
+  } else {
+
+    echo "<script>
+    Swal.fire({title: 'Username Tidak Ada',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+      {window.location = 'reset_password.php';}
+    })</script>";
+  }
+}
+
