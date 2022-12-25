@@ -67,7 +67,7 @@
             <div class="carousel-caption">
               <h5>Jasa Layanan Cuci Sepatu</h5>
                               <p>Daftar terlebih dahulu untuk pemesanan</p>
-                              <p><a href="#" class="btn btn-warning mt-3">Register</a></p>
+                              <p><a href="login.php" class="btn btn-warning mt-3">Register</a></p>
             </div>
           </div>
           <div class="carousel-item">
