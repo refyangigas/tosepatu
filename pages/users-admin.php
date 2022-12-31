@@ -660,3 +660,40 @@ if (isset($_SESSION["ses_username"]) == "") {
 </body>
 
 </html>
+
+<?php
+
+include "../connection/koneksi.php";
+error_reporting(0);
+$id = $_GET['id'];
+$NamaUserEdit = $_POST['edit-nama'];
+$UsernameUserEdit = $_POST['edit-username'];
+$PasswordUserEdit = $_POST['edit-password'];
+$RePasswordUserEdit = $_POST['re-edit-password'];
+
+if (isset($_POST['edit-user'])) {
+  if ($PasswordUserEdit == $RePasswordUserEdit) {
+    $sql = mysqli_query($koneksi, "UPDATE tb_user SET nama='$NamaUserEdit', username = '$UsernameUserEdit', password = '$PasswordUserEdit' WHERE id='$id'");
+    if ($sql) {
+      echo "<script>
+              Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+              }).then((result) => {if (result.value)
+                  {window.location = 'users.php';}
+              })</script>";
+    } else {
+      echo "<script>
+            Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+            }).then((result) => {if (result.value)
+                {window.location = 'users.php';}
+            })</script>";
+    }
+  } else {
+    echo "<script>
+          Swal.fire({title: 'Password Tidak Sama',text: '',icon: 'error',confirmButtonText: 'OK'
+          }).then((result) => {if (result.value)
+              {window.location = 'users.php';}
+          })</script>";
+  }
+}
+
+?>
