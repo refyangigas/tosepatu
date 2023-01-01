@@ -427,6 +427,216 @@ if (isset($_SESSION["ses_username"]) == "") {
                     </tr>
                   </thead>
                   <tbody>
+                  
+                <?php
+
+                $batas = 20;
+                $halaman = @$_GET['halaman'];
+                if (empty($halaman)) {
+                $posisi = 0;
+                $halaman = 1;
+                } else {
+                $posisi = ($halaman - 1) * $batas;
+                }
+
+                $no = 1 + $posisi;
+
+
+
+                $data = $_POST['data'];
+
+                if (isset($_POST['caridata'])) {
+                $caringab = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user WHERE tb_user.nama LIKE '" . $data . "%' GROUP BY tb_transaksi.id LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $caringab);
+                } elseif (isset($_POST['namaasc'])) {
+                $namaasc = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user GROUP BY tb_transaksi.id order by tb_user.nama asc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $namaasc);
+                } elseif (isset($_POST['namadesc'])) {
+                $namadesc = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user GROUP BY tb_transaksi.id order by tb_user.nama desc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $namadesc);
+                } elseif (isset($_POST['totalasc'])) {
+                $totalasc = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user GROUP BY tb_transaksi.id order by total asc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $totalasc);
+                } elseif (isset($_POST['totaldesc'])) {
+                $totaldesc = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user GROUP BY tb_transaksi.id order by total desc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $totaldesc);
+                } elseif (isset($_POST['from_date']) && isset($_POST['to_date'])) {
+
+                $from_date = $_POST['from_date'];
+                $to_date = $_POST['to_date'];
+
+                $filter_dek = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user WHERE tb_transaksi.tanggal BETWEEN '$from_date' AND '$to_date' GROUP BY tb_transaksi.id order by tb_user.nama asc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $filter_dek);
+                } elseif (isset($_POST['belum-bayar'])) {
+                $pending = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user Where tb_status.nama = 'belum bayar' group by tb_transaksi.id order by tb_user.nama asc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $pending);
+                } elseif (isset($_POST['pengerjaan'])) {
+                $delivery = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user Where tb_status.nama = 'pengerjaan' group by tb_transaksi.id order by tb_user.nama asc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $delivery);
+                } elseif (isset($_POST['selesai'])) {
+                $done = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user Where tb_status.nama = 'selesai' group by tb_transaksi.id order by tb_user.nama asc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $done);
+                } elseif (isset($_POST['gagal'])) {
+                $cancel = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user Where tb_status.nama = 'gagal' group by tb_transaksi.id order by tb_user.nama asc LIMIT $posisi, $batas");
+                $result   = mysqli_query($koneksi, $cancel);
+                } else {
+                $query  = ("SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user group by tb_transaksi.id order by tb_user.nama asc LIMIT $posisi, $batas");
+                $result = mysqli_query($koneksi, $query);
+                }
+
+
+                $no     = 1;
+
+
+                while ($row = mysqli_fetch_array($result)) {
+
+                $ReportId = $row['id'];
+                $ReportNama = $row['nama'];
+                $ReportLayanan = $row['layanan'];
+                $ReportJumlah = $row['jumlah'];
+                $ReportStatus = $row['status'];
+                $ReportAlamat = $row['alamat'];
+                $ReportTotal = $row['total'];
+                $ReportPembayaran = $row['pembayaran'];
+                $ReportBukti = $row['bukti'];
+                $ReportTanggal   = $row['tanggal'];
+
+                ?>
+
+
+                <tr>
+
+                    <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?php echo $no++; ?></span>
+                    </td>
+
+
+
+                    <td class="align-middle text-center text-sm">
+
+                    <?php
+
+                    if ($ReportStatus == "Belum Bayar") {
+                        echo "
+                    <span class='badge badge-sm bg-gradient-warning px-3'>Belum Bayar</span>
+                    ";
+                    } elseif ($ReportStatus == "Pengerjaan") {
+                        echo "
+                    <span class='badge badge-sm bg-gradient-info px-4'>Pengerjaan</span>
+                    ";
+                    } elseif ($ReportStatus == "Selesai") {
+                        echo "
+                    <span class='badge badge-sm bg-gradient-success px-4'>Selesai</span>
+                        ";
+                    } elseif ($ReportStatus == "Gagal") {
+                        echo "
+                        <span class='badge badge-sm bg-gradient-danger'>Gagal</span>
+                        ";
+                    }
+
+                    ?>
+
+                    </td>
+
+                    <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?php echo $ReportNama; ?></span>
+                    </td>
+
+                    <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?php echo $ReportLayanan; ?></span>
+                    </td>
+
+
+                    <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?php echo $ReportJumlah; ?></span>
+                    </td>
+
+                    <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"> <?php echo $ReportPembayaran; ?></span>
+                    </td>
+
+
+
+                    <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">Rp. <?php echo $ReportTotal; ?></span>
+                    </td>
+
+
+                    <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold"><?php echo $ReportTanggal; ?></span>
+                    </td>
+
+
+
+
+                <tr></tr>
+                </tr>
+
+
+
+
+
+
+
+                <?php
+                // $no++;
+                }
+
+
+                ?>
+                </tbody>
+                </table>
+                </div>
+
+                <?php
+                $ngab = mysqli_query($koneksi, "SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga, tb_transaksi.jumlah, format(tb_penjemputan.harga,0) as penjemputan, format(tb_pengiriman.harga,0) as pengiriman, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user group by tb_transaksi.id order by tb_user.nama asc");
+                $hitung = $ngab->fetch_all(MYSQLI_ASSOC);
+                $jmldata = $hitung[0]['id'];
+                $jmlhalaman = ceil($jmldata / $batas);
+
+                $Previous = $halaman - 1;
+                $Next = $halaman + 1;
+
+                ?>
+
+                <div class="my-4 ms-2 me-2">
+                <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                <li class="page-item">
+                <a class="page-link" href="orders.php?halaman=<?= $Previous; ?>" aria-label="Previous">
+                    <i class="fa fa-angle-left"></i>
+                    <span class="sr-only">Previous</span>
+                </a>
+                </li>
+
+                <?php
+                for ($i = 1; $i <= $jmlhalaman; $i++)
+                if ($i != $halaman) {
+                    echo "
+                <li class='page-item'><a href=\"orders.php?halaman=$i \" class='page-link'>$i</a></li>
+                ";
+                } else {
+                    echo "
+                    <li class='page-item'><a class='page-link'>$i</a></li>
+                    ";
+                }
+
+                ?>
+                <li class="page-item">
+                <a class="page-link" href="orders.php?halaman=<?= $Next; ?>" aria-label="Next">
+                    <i class="fa fa-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                </a>
+                </li>
+                </ul>
+                </nav>
+                </div>
+
+
+                </div>
+                </div>
+                </div>
+                </div>
 
                   <footer class="footer pt-3">
         <div class="container-fluid">
@@ -486,5 +696,32 @@ if (isset($_SESSION["ses_username"]) == "") {
 </body>
 
 </html>
+
+<?php
+
+include "../connection/koneksi.php";
+error_reporting(0);
+$id = $_GET['id'];
+$status = $_POST['status'];
+
+if (isset($_POST['edit'])) {
+  $sql = mysqli_query($koneksi, "UPDATE `tb_transaksi` SET status='$status' WHERE id='$id'");
+
+  if ($sql) {
+    echo "<script>
+            Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+            }).then((result) => {if (result.value)
+                {window.location = '';}
+            })</script>";
+  } else {
+    echo "<script>
+          Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+          }).then((result) => {if (result.value)
+              {window.location = '';}
+          })</script>";
+  }
+}
+
+?>
 
                   
