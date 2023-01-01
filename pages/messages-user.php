@@ -8,7 +8,7 @@ if (isset($_SESSION["ses_username"]) == "") {
   header("location: logout.php");
 } else {
   $data_id = $_SESSION["ses_id"];
-  $data_nama = $_SESSION['ses_nama'];
+  $data_nama = $_SESSION["ses_nama"];
   $data_username = $_SESSION["ses_username"];
   $data_password = $_SESSION["ses_password"];
   $data_role = $_SESSION["ses_role"];
@@ -781,3 +781,88 @@ if (isset($_SESSION["ses_username"]) == "") {
 </body>
 
 </html>
+
+<?php
+
+include "../connection/koneksi.php";
+session_start();
+error_reporting(0);
+if (isset($_POST['tambah-pesan'])) {
+
+  $TambahPesanUser = $_POST['tambah-pesan-user'];
+
+  $query    = "INSERT INTO tb_pesan SET id = '', id_user = '$data_id', pesan_user = '$TambahPesanUser', status = 'menunggu', tanggal = now()";
+  $result   = mysqli_query($koneksi, $query);
+
+
+  if ($result) {
+    echo "<script>
+		Swal.fire({title: 'Data Berhasil Disimpan',text: '',icon: 'success',confirmButtonText: 'OK'
+		}).then((result) => {if (result.value)
+			{window.location = 'messages-users.php';}
+		})</script>";
+  } else {
+
+    echo "<script>
+			Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+			}).then((result) => {if (result.value)
+				{window.location = 'messages-users.php';}
+			})</script>";
+  }
+}
+
+?>
+
+<?php
+
+include "../connection/koneksi.php";
+error_reporting(0);
+$id = $_GET['id'];
+$pesanuser = $_POST['pesan-user'];
+
+if (isset($_POST['edit-pesan-user'])) {
+  $sql = mysqli_query($koneksi, "UPDATE `tb_pesan` SET pesan_user = '$pesanuser' WHERE id='$id'");
+
+  if ($sql) {
+    echo "<script>
+            Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+            }).then((result) => {if (result.value)
+                {window.location = 'messages-users.php';}
+            })</script>";
+  } else {
+    echo "<script>
+          Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+          }).then((result) => {if (result.value)
+              {window.location = 'messages-users.php';}
+          })</script>";
+  }
+}
+
+?>
+
+<?php
+include "../connection/koneksi.php";
+error_reporting(0);
+
+if (isset($_POST['delete-pesan-user'])) {
+
+  if (isset($_POST['delete-pesan-user'])) {
+    $querydel = "DELETE FROM tb_pesan WHERE id = '$_GET[id]' ";
+    $result = mysqli_query($koneksi, $querydel);
+
+    echo "<script>
+    Swal.fire({title: 'Data Berhasil Dihapus',text: '',icon: 'success',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'messages-users.php';}
+    })</script>";
+  } else {
+    echo "<script>
+    Swal.fire({title: 'Data Gagal Dihapus',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'messages-users.php';}
+    })</script>";
+  }
+}
+
+
+?>
