@@ -730,3 +730,30 @@ if (isset($_POST['tambah-user'])) {
 
 
 ?>
+
+<?php
+include "../connection/koneksi.php";
+error_reporting(0);
+
+if (isset($_POST['delete-user'])) {
+
+  if (isset($_POST['delete-user'])) {
+    $querydel = "DELETE FROM tb_user WHERE id = '$_GET[id]' ";
+    $result = mysqli_query($koneksi, $querydel);
+
+    echo "<script>
+    Swal.fire({title: 'Data Berhasil Dihapus',text: '',icon: 'success',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'users.php';}
+    })</script>";
+  } else {
+    echo "<script>
+    Swal.fire({title: 'Data Gagal Dihapus',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'users.php';}
+    })</script>";
+  }
+}
+
+
+?>
