@@ -1,3 +1,22 @@
+<?php
+include "../connection/koneksi.php";
+session_start();
+
+if (isset($_SESSION["ses_username"]) == "") {
+  header("location: ../login.php");
+} elseif ($_SESSION["ses_role"] == '2') {
+  header("location: logout.php");
+} else {
+  $data_id = $_SESSION["ses_id"];
+  $data_nama = $_SESSION["ses_nama"];
+  $data_username = $_SESSION["ses_username"];
+  $data_password = $_SESSION["ses_password"];
+  $data_role = $_SESSION["ses_role"];
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -641,3 +660,100 @@
 </body>
 
 </html>
+
+<?php
+
+include "../connection/koneksi.php";
+error_reporting(0);
+$id = $_GET['id'];
+$NamaUserEdit = $_POST['edit-nama'];
+$UsernameUserEdit = $_POST['edit-username'];
+$PasswordUserEdit = $_POST['edit-password'];
+$RePasswordUserEdit = $_POST['re-edit-password'];
+
+if (isset($_POST['edit-user'])) {
+  if ($PasswordUserEdit == $RePasswordUserEdit) {
+    $sql = mysqli_query($koneksi, "UPDATE tb_user SET nama='$NamaUserEdit', username = '$UsernameUserEdit', password = '$PasswordUserEdit' WHERE id='$id'");
+    if ($sql) {
+      echo "<script>
+              Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+              }).then((result) => {if (result.value)
+                  {window.location = 'users.php';}
+              })</script>";
+    } else {
+      echo "<script>
+            Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+            }).then((result) => {if (result.value)
+                {window.location = 'users.php';}
+            })</script>";
+    }
+  } else {
+    echo "<script>
+          Swal.fire({title: 'Password Tidak Sama',text: '',icon: 'error',confirmButtonText: 'OK'
+          }).then((result) => {if (result.value)
+              {window.location = 'users.php';}
+          })</script>";
+  }
+}
+
+?>
+
+<?php
+
+include "../connection/koneksi.php";
+session_start();
+error_reporting(0);
+
+
+$NamaUser = $_POST['nama'];
+$UsernameUser = $_POST['username'];
+$PasswordUser = $_POST['password'];
+$RePasswordUser = $_POST['re-password'];
+if (isset($_POST['tambah-user'])) {
+  if ($PasswordUser == $RePasswordUser) {
+    $query    = "INSERT INTO tb_user SET id = '', nama = '$NamaUser', username = '$UsernameUser', password = '$PasswordUser', role = '2'";
+    $result   = mysqli_query($koneksi, $query);
+    echo "<script>
+      Swal.fire({title: 'Data Berhasil Disimpan',text: '',icon: 'success',confirmButtonText: 'OK'
+      }).then((result) => {if (result.value)
+        {window.location = 'users.php';}
+      })</script>";
+  } else {
+
+    echo "<script>
+        Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+        }).then((result) => {if (result.value)
+          {window.location = 'users.php';}
+        })</script>";
+  }
+}
+
+
+?>
+
+<?php
+include "../connection/koneksi.php";
+error_reporting(0);
+
+if (isset($_POST['delete-user'])) {
+
+  if (isset($_POST['delete-user'])) {
+    $querydel = "DELETE FROM tb_user WHERE id = '$_GET[id]' ";
+    $result = mysqli_query($koneksi, $querydel);
+
+    echo "<script>
+    Swal.fire({title: 'Data Berhasil Dihapus',text: '',icon: 'success',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'users.php';}
+    })</script>";
+  } else {
+    echo "<script>
+    Swal.fire({title: 'Data Gagal Dihapus',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'users.php';}
+    })</script>";
+  }
+}
+
+
+?>
