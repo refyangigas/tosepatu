@@ -697,3 +697,36 @@ if (isset($_POST['edit-user'])) {
 }
 
 ?>
+
+<?php
+
+include "../connection/koneksi.php";
+session_start();
+error_reporting(0);
+
+
+$NamaUser = $_POST['nama'];
+$UsernameUser = $_POST['username'];
+$PasswordUser = $_POST['password'];
+$RePasswordUser = $_POST['re-password'];
+if (isset($_POST['tambah-user'])) {
+  if ($PasswordUser == $RePasswordUser) {
+    $query    = "INSERT INTO tb_user SET id = '', nama = '$NamaUser', username = '$UsernameUser', password = '$PasswordUser', role = '2'";
+    $result   = mysqli_query($koneksi, $query);
+    echo "<script>
+      Swal.fire({title: 'Data Berhasil Disimpan',text: '',icon: 'success',confirmButtonText: 'OK'
+      }).then((result) => {if (result.value)
+        {window.location = 'users.php';}
+      })</script>";
+  } else {
+
+    echo "<script>
+        Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+        }).then((result) => {if (result.value)
+          {window.location = 'users.php';}
+        })</script>";
+  }
+}
+
+
+?>
