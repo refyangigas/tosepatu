@@ -4,18 +4,17 @@ session_start();
 
 if (isset($_SESSION["ses_username"]) == "") {
   header("location: ../login.php");
-} elseif ($_SESSION["ses_role"] == '2') {
+} elseif ($_SESSION["ses_role"] == '1') {
   header("location: logout.php");
 } else {
   $data_id = $_SESSION["ses_id"];
-  $data_nama = $_SESSION["ses_nama"];
+  $data_nama = $_SESSION['ses_nama'];
   $data_username = $_SESSION["ses_username"];
   $data_password = $_SESSION["ses_password"];
   $data_role = $_SESSION["ses_role"];
 }
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +23,7 @@ if (isset($_SESSION["ses_username"]) == "") {
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png" />
   <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
-  <title>Messages</title>
+  <title>Messages Users - Suki Dashboard</title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -49,7 +48,7 @@ if (isset($_SESSION["ses_username"]) == "") {
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href="./dashboard.php">
+      <a class="navbar-brand m-0" href="dashboard.php">
         <img src="../assets/images/icon.png" class="navbar-brand-img h-100" alt="main_logo" />
         <span class="ms-1 font-weight-bold">Tosepatu Dashboard</span>
       </a>
@@ -57,59 +56,23 @@ if (isset($_SESSION["ses_username"]) == "") {
     <hr class="horizontal dark mt-0" />
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="./dashboard.php">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-tv-2 text-warning text-sm opacity-10"></i>
-              <!-- <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i> -->
-            </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
-          </a>
-        </li>
-
 
         <li class='nav-item'>
-          <a class='nav-link' href='transaksi.php'>
+          <a class='nav-link' href='orders.php'>
             <div class='icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center'>
-              <i class='ni ni-tag text-warning text-sm opacity-10'></i>
+              <i class='ni ni-cart text-warning text-sm opacity-10'></i>
             </div>
-            <span class='nav-link-text ms-1'>Transaksi</span>
+            <span class='nav-link-text ms-1'>Order</span>
           </a>
         </li>
 
-        <li class='nav-item'>
-          <a class='nav-link' href='services.php'>
-            <div class='icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center'>
-              <i class='ni ni-bulb-61 text-warning text-sm opacity-10'></i>
-            </div>
-            <span class='nav-link-text ms-1'>Services</span>
-          </a>
-        </li>
 
         <li class='nav-item'>
-          <a class='nav-link' href='users.php'>
-            <div class='icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center'>
-              <i class='ni ni-single-02 text-warning text-sm opacity-10'></i>
-            </div>
-            <span class='nav-link-text ms-1'>Users</span>
-          </a>
-        </li>
-
-        <li class='nav-item'>
-          <a class='nav-link active' href='messages.php'>
+          <a class='nav-link active' href='messages-users.php'>
             <div class='icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center'>
               <i class='ni ni-send text-warning text-sm opacity-10'></i>
             </div>
             <span class='nav-link-text ms-1'>Messages</span>
-          </a>
-        </li>
-
-        <li class='nav-item'>
-          <a class='nav-link' href='report.php'>
-            <div class='icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center'>
-              <i class='ni ni-chart-bar-32 text-warning text-sm opacity-10'></i>
-            </div>
-            <span class='nav-link-text ms-1'>Report</span>
           </a>
         </li>
 
@@ -121,6 +84,7 @@ if (isset($_SESSION["ses_username"]) == "") {
             <span class='nav-link-text ms-1'>Profile</span>
           </a>
         </li>
+
 
       </ul>
     </div>
@@ -211,6 +175,7 @@ if (isset($_SESSION["ses_username"]) == "") {
                 </li>
               </ul>
             </li>
+
           </ul>
         </div>
       </div>
@@ -221,7 +186,7 @@ if (isset($_SESSION["ses_username"]) == "") {
       <div class="card-body">
         <div class="row gx-4">
 
-          <div class="dropdown col-auto">
+          <!-- <div class="dropdown col-auto">
             <form class="" action="" method="post">
               <button class="btn btn-sm bg-gradient-dark dropdown-toggle mb-1 px-3" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 Sort By
@@ -229,11 +194,12 @@ if (isset($_SESSION["ses_username"]) == "") {
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <button class="dropdown-item" name="namaasc" type="submit"> Nama Asc (A-Z)</button>
                 <button class="dropdown-item" name="namadesc" type="submit"> Nama Desc (Z-A)</button>
-
+                <button class="dropdown-item" name="totalasc" type="submit">Total Desc (A-Z)</button>
+                <button class="dropdown-item" name="totaldesc" type="submit">Total Asc (Z-A)</button>
               </ul>
             </form>
 
-          </div>
+          </div> -->
 
           <div class="dropdown col-auto">
             <form class="" action="" method="post">
@@ -299,20 +265,20 @@ if (isset($_SESSION["ses_username"]) == "") {
 
 
 
-            <div class="col-lg-4 col-md-6 me-sm-10 mx-auto mt-0">
+            <!-- <div class="col-lg-4 col-md-6 me-sm-10 mx-auto mt-0">
               <div class="nav-wrapper position-relative end-0">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                  <!-- <form class="input-group" action="" method="post"> -->
+                  <form class="input-group" action="" method="post">
                   <div class="input-group">
                     <input type="text" class="form-control ms-4" name="data" placeholder="Type here..." aria-label="Type here..." aria-describedby="button-addon2">
                     <button class="btn bg-gradient-dark  mb-0" name="caridata" type="submit" id="button-addon2">
                       <i class="fas fa-search" aria-hidden="true"></i>
                     </button>
                   </div>
-                  <!-- </form> -->
+                  </form>
                 </div>
               </div>
-            </div>
+            </div> -->
           </form>
 
         </div>
@@ -329,78 +295,7 @@ if (isset($_SESSION["ses_username"]) == "") {
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
                 <h6>Messages table</h6>
-
-
-                <?php
-                error_reporting(0);
-
-
-                $tampilpesanmenunggu = ("SELECT COUNT(tb_pesan.id) as jml_pesan_menunggu FROM tb_pesan WHERE tb_pesan.status =  'menunggu'");
-                $result   = mysqli_query($koneksi, $tampilpesanmenunggu);
-
-                while ($row = mysqli_fetch_array($result)) {
-
-                  $pesanmenunggu   = $row['jml_pesan_menunggu'];
-
-                ?>
-
-                  <?php
-
-                  if ($pesanmenunggu == '0') {
-
-                    echo "
-                    <h6 class='ms-auto font-weight-bolder'>Pesan Menunggu : 0 </h6>&nbsp;&nbsp;&nbsp;&nbsp;
-                    ";
-                  } else {
-
-                    echo "
-                    <h6 class='ms-auto font-weight-bolder'>Pesan Menunggu : $pesanmenunggu </h6>&nbsp;&nbsp;&nbsp;&nbsp;
-                    ";
-                  }
-
-
-                  ?>
-                <?php
-
-                }
-                ?>
-
-
-                <?php
-                error_reporting(0);
-
-
-                $tampilpesanselesai = ("SELECT COUNT(tb_pesan.id) as jml_pesan_selesai FROM tb_pesan WHERE tb_pesan.status =  'selesai'");
-                $result   = mysqli_query($koneksi, $tampilpesanselesai);
-
-                while ($row = mysqli_fetch_array($result)) {
-
-                  $pesanselesai   = $row['jml_pesan_selesai'];
-
-                ?>
-
-                  <?php
-
-                  if ($pesanselesai == '0') {
-
-                    echo "
-                    <h6 class='ms font-weight-bolder'>Pesan Selesai : 0 </h6>
-                    ";
-                  } else {
-
-                    echo "
-                    <h6 class='ms font-weight-bolder'>Pesan Selesai : $pesanselesai </h6>
-                    ";
-                  }
-
-                  ?>
-                <?php
-
-                }
-                ?>
-
-
-
+                <button class="btn btn-success btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#modal-tambah-pesan">Buat Pesan</button>
               </div>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
@@ -453,32 +348,21 @@ if (isset($_SESSION["ses_username"]) == "") {
 
 
 
-                    $data = $_POST['data'];
-
-                    if (isset($_POST['caridata'])) {
-                      $caringab = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_user.nama LIKE '" . $data . "%' LIMIT $posisi, $batas");
-                      $result   = mysqli_query($koneksi, $caringab);
-                    } elseif (isset($_POST['namaasc'])) {
-                      $namaasc = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user ORDER BY tb_user.nama asc LIMIT $posisi, $batas");
-                      $result   = mysqli_query($koneksi, $namaasc);
-                    } elseif (isset($_POST['namadesc'])) {
-                      $namadesc = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user ORDER BY tb_user.nama desc LIMIT $posisi, $batas");
-                      $result   = mysqli_query($koneksi, $namadesc);
-                    } elseif (isset($_POST['from_date']) && isset($_POST['to_date'])) {
+                    if (isset($_POST['from_date']) && isset($_POST['to_date'])) {
 
                       $from_date = $_POST['from_date'];
                       $to_date = $_POST['to_date'];
 
-                      $filter_dek = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_pesan.tanggal BETWEEN '$from_date' AND '$to_date' ORDER BY tb_user.nama asc LIMIT $posisi, $batas");
+                      $filter_dek = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_pesan.id_user = '$data_id' and tb_pesan.tanggal BETWEEN '$from_date' AND '$to_date' LIMIT $posisi, $batas");
                       $result   = mysqli_query($koneksi, $filter_dek);
-                    } elseif (isset($_POST['menunggu'])) {
-                      $pending = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_pesan.status = 'menunggu' ORDER BY tb_user.nama asc LIMIT $posisi, $batas");
-                      $result   = mysqli_query($koneksi, $pending);
                     } elseif (isset($_POST['selesai'])) {
-                      $delivery = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_pesan.status = 'selesai' ORDER BY tb_user.nama asc LIMIT $posisi, $batas");
+                      $pending = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_pesan.id_user = '$data_id' AND tb_pesan.status = 'selesai' LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $pending);
+                    } elseif (isset($_POST['menunggu'])) {
+                      $delivery = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_pesan.id_user = '$data_id' AND tb_pesan.status = 'menunggu' LIMIT $posisi, $batas");
                       $result   = mysqli_query($koneksi, $delivery);
                     } else {
-                      $query  = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user ORDER BY tb_user.nama asc LIMIT $posisi, $batas");
+                      $query  = ("SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_pesan.id_user = '$data_id' LIMIT $posisi, $batas");
                       $result = mysqli_query($koneksi, $query);
                     }
 
@@ -538,10 +422,23 @@ if (isset($_SESSION["ses_username"]) == "") {
 
                         <td class="align-middle text-center">
 
+                          <?php
 
+                          if ($MessageStatus == "menunggu") {
 
+                            echo "
+                          <button disabled class='btn btn-dark btn-sm px-3 py-1 me-1 mt-3' data-bs-toggle='modal' data-bs-target='#modal-pesan-admin$MessageId'>Lihat</button>
 
-                          <button class="btn btn-dark btn-sm px-3 py-1 me-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-pesan-admin<?php echo $row['id']; ?>">Lihat</button>
+                          ";
+                          } else {
+
+                            echo "
+                            <button class='btn btn-dark btn-sm px-3 py-1 me-1 mt-3' data-bs-toggle='modal' data-bs-target='#modal-pesan-admin$MessageId'>Lihat</button>
+  
+                            ";
+                          }
+
+                          ?>
 
                         </td>
 
@@ -553,10 +450,24 @@ if (isset($_SESSION["ses_username"]) == "") {
                         <td class="align-middle text-center">
 
 
+                          <?php
+
+                          if ($MessageStatus == "selesai") {
+                            echo "
+                              <button disabled class='btn btn-dark btn-sm px-3 py-1 me-1 mt-3' data-bs-toggle='modal' data-bs-target='#modal-delete-pesan$MessageId'>Delete</button>
+
+                              <button disabled class='btn btn-dark btn-sm px-3 py-1 me-1 mt-3' data-bs-toggle='modal' data-bs-target='#modal-edit$MessageId'>Edit</button>
+                              ";
+                          } else {
+                            echo "
+                            <button class='btn btn-dark btn-sm px-3 py-1 me-1 mt-3' data-bs-toggle='modal' data-bs-target='#modal-delete-pesan$MessageId'>Delete</button>
+                            <button class='btn btn-dark btn-sm px-3 py-1 me-1 mt-3' data-bs-toggle='modal' data-bs-target='#modal-edit$MessageId'>Edit</button>
+                            ";
+                          }
+
+                          ?>
 
 
-                          <button class="btn btn-dark btn-sm px-3 py-1 me-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-edit<?php echo $row['id']; ?>">Edit</button>
-                          <button class="btn btn-dark btn-sm px-3 py-1 me-1 mt-3" data-bs-toggle="modal" data-bs-target="#modal-delete-pesan<?php echo $row['id']; ?>">Delete</button>
                         </td>
 
 
@@ -633,14 +544,14 @@ if (isset($_SESSION["ses_username"]) == "") {
                               </button>
                             </div>
                             <div class="modal-body">
-                              <form action="messages.php?id=<?= $row['id'] ?>" method="post">
-                                <div class="form-group">
+                              <form action="messages-users.php?id=<?= $row['id'] ?>" method="post">
+                                <!-- <div class="form-group">
                                   <label for="bahan">Status</label>
                                   <select class="form-control" name="status-pesan" required>
                                     <option value="menunggu">Menunggu</option>
                                     <option value="selesai">Selesai</option>
                                   </select>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group">
                                   <label for="example-text-input" class="form-control-label">Name</label>
@@ -651,13 +562,13 @@ if (isset($_SESSION["ses_username"]) == "") {
 
                                 <div class="form-group">
                                   <label for="exampleFormControlTextarea1">Pesan User</label>
-                                  <textarea disabled class="form-control" id="exampleFormControlTextarea1" placeholder="Enter Pesan User" maxlength="500" rows="3"><?= $MessageUser ?></textarea>
+                                  <textarea class="form-control" id="exampleFormControlTextarea1" name="pesan-user" placeholder="Enter Pesan User" maxlength="500" rows="3"><?= $MessageUser ?></textarea>
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                   <label for="exampleFormControlTextarea1">Pesan Admin</label>
                                   <textarea class="form-control" id="exampleFormControlTextarea1" name="pesan-admin" placeholder="Enter Pesan Admin" maxlength="500" rows="3"><?= $MessageAdmin ?></textarea>
-                                </div>
+                                </div> -->
 
                                 <div class="form-group">
                                   <label for="example-text-input" class="form-control-label">Tanggal</label>
@@ -666,7 +577,7 @@ if (isset($_SESSION["ses_username"]) == "") {
 
                                 <div class="modal-footer">
                                   <div class="align-middle text-center">
-                                    <button type="submit" name="edit-pesan" class="btn btn-success btn-sm ms-auto">Save</button>
+                                    <button type="submit" name="edit-pesan-user" class="btn btn-success btn-sm ms-auto">Save</button>
                                     <button type="button" class="btn btn-danger btn-sm ms-auto" data-bs-dismiss="modal">Close</button>
                                   </div>
                                 </div>
@@ -691,12 +602,12 @@ if (isset($_SESSION["ses_username"]) == "") {
                             </div>
                             <div class="modal-body">
                               <div class="align-middle text-center">
-                                <h4>Anda Yakin Akan Menghapus Data Pesan <?php echo $MessageNama ?> ?</h4>
+                                <h4>Anda Yakin Akan Menghapus Data Pesan Anda ?</h4>
                               </div>
-                              <form class="yayyay" action="messages.php?id=<?= $row['id'] ?>" method="post">
+                              <form class="yayyay" action="messages-users.php?id=<?= $row['id'] ?>" method="post">
                                 <div class="modal-footer">
                                   <div class="align-middle text-center">
-                                    <button class="btn btn-danger btn-sm ms-auto" type="submit" name="delete-pesan">Delete</button>
+                                    <button class="btn btn-danger btn-sm ms-auto" type="submit" name="delete-pesan-user">Delete</button>
                                     <button type="button" class="btn btn-success btn-sm ms-auto" data-bs-dismiss="modal">Close</button>
                                   </div>
                                 </div>
@@ -723,7 +634,7 @@ if (isset($_SESSION["ses_username"]) == "") {
               </div>
 
               <?php
-              $ngab = mysqli_query($koneksi, "SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user ORDER BY tb_user.nama asc");
+              $ngab = mysqli_query($koneksi, "SELECT tb_user.nama, tb_pesan.id, tb_pesan.status, tb_pesan.pesan_user, tb_pesan.pesan_admin, tb_pesan.tanggal FROM tb_pesan INNER JOIN tb_user ON tb_user.id=tb_pesan.id_user WHERE tb_pesan.id_user = '$data_id'");
               $hitung = $ngab->fetch_all(MYSQLI_ASSOC);
               $jmldata = $hitung[0]['id'];
               $jmlhalaman = ceil($jmldata / $batas);
@@ -771,6 +682,47 @@ if (isset($_SESSION["ses_username"]) == "") {
           </div>
         </div>
       </div>
+
+      <!-- Modal Detail Edit -->
+      <div class="modal fade" id="modal-tambah-pesan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Form</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="messages-users.php?id=<?= $row['id'] ?>" method="post">
+
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Name</label>
+                  <input disabled class="form-control" name="nama" type="text" value="<?= $data_nama ?>" maxlength="30" placeholder="Enter Nama" required />
+                </div>
+
+
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Pesan User</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" name="tambah-pesan-user" placeholder="Enter Pesan User" maxlength="500" rows="3"></textarea>
+                </div>
+
+
+                <div class="modal-footer">
+                  <div class="align-middle text-center">
+                    <button type="submit" name="tambah-pesan" class="btn btn-success btn-sm ms-auto">Save</button>
+                    <button type="button" class="btn btn-danger btn-sm ms-auto" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- End Detail Edit -->
+
+
       <footer class="footer pt-3">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -829,57 +781,3 @@ if (isset($_SESSION["ses_username"]) == "") {
 </body>
 
 </html>
-<?php
-
-include "../connection/koneksi.php";
-error_reporting(0);
-$id = $_GET['id'];
-$status = $_POST['status-pesan'];
-$pesanadmin = $_POST['pesan-admin'];
-
-if (isset($_POST['edit-pesan'])) {
-  $sql = mysqli_query($koneksi, "UPDATE `tb_pesan` SET status='$status', pesan_admin = '$pesanadmin' WHERE id='$id'");
-
-  if ($sql) {
-    echo "<script>
-            Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
-            }).then((result) => {if (result.value)
-                {window.location = 'messages.php';}
-            })</script>";
-  } else {
-    echo "<script>
-          Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
-          }).then((result) => {if (result.value)
-              {window.location = 'messages.php';}
-          })</script>";
-  }
-}
-
-?>
-
-<?php
-include "../connection/koneksi.php";
-error_reporting(0);
-
-if (isset($_POST['delete-pesan'])) {
-
-  if (isset($_POST['delete-pesan'])) {
-    $querydel = "DELETE FROM tb_pesan WHERE id = '$_GET[id]' ";
-    $result = mysqli_query($koneksi, $querydel);
-
-    echo "<script>
-    Swal.fire({title: 'Data Berhasil Dihapus',text: '',icon: 'success',confirmButtonText: 'OK'
-    }).then((result) => {if (result.value)
-        {window.location = 'messages.php';}
-    })</script>";
-  } else {
-    echo "<script>
-    Swal.fire({title: 'Data Gagal Dihapus',text: '',icon: 'error',confirmButtonText: 'OK'
-    }).then((result) => {if (result.value)
-        {window.location = 'messages.php';}
-    })</script>";
-  }
-}
-
-
-?>
