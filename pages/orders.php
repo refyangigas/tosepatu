@@ -1,3 +1,22 @@
+<?php
+include "../connection/koneksi.php";
+session_start();
+
+if (isset($_SESSION["ses_username"]) == "") {
+  header("location: ../login.php");
+} elseif ($_SESSION["ses_role"] == '1') {
+  header("location: logout.php");
+} else {
+  $data_id = $_SESSION["ses_id"];
+  $data_nama = $_SESSION['ses_nama'];
+  $data_username = $_SESSION["ses_username"];
+  $data_password = $_SESSION["ses_password"];
+  $data_role = $_SESSION["ses_role"];
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -999,9 +1018,406 @@
               </div>
 
 
-                </main>
+              <?php
+              $ngab = mysqli_query($koneksi, "SELECT tb_transaksi.id, tb_user.nama, tb_status.nama AS status, tb_layanan.nama as layanan, tb_layanan.harga as hargalayanan, tb_layanan.id as idlayanan, tb_penjemputan.nama as penjemputan, tb_penjemputan.id as idpenjemputan, tb_penjemputan.harga as hargapenjemputan, tb_pengiriman.id as idpengiriman, tb_pengiriman.nama as pengiriman, tb_pengiriman.harga as hargapengiriman, tb_pembayaran.id as idpembayaran, tb_transaksi.jumlah as jumlah, FORMAT(SUM(tb_transaksi.jumlah * tb_layanan.harga + tb_pengiriman.harga + tb_penjemputan.harga),0) AS total, tb_pembayaran.nama as pembayaran, tb_transaksi.alamat, tb_transaksi.bukti as bukti, tb_transaksi.tanggal FROM tb_transaksi INNER JOIN tb_status ON tb_status.id=tb_transaksi.status INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_pembayaran ON tb_pembayaran.id=tb_transaksi.pembayaran INNER JOIN tb_user ON tb_user.id=tb_transaksi.id_user GROUP BY tb_transaksi.id ORDER BY tb_user.nama asc");
+              $hitung = $ngab->fetch_all(MYSQLI_ASSOC);
+              $jmldata = $hitung[0]['id'];
+              $jmlhalaman = ceil($jmldata / $batas);
+
+              $Previous = $halaman - 1;
+              $Next = $halaman + 1;
+
+              ?>
+
+              <div class="my-4 ms-2 me-2">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item">
+                      <a class="page-link" href="orders.php?halaman=<?= $Previous; ?>" aria-label="Previous">
+                        <i class="fa fa-angle-left"></i>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                    </li>
+
+                    <?php
+                    for ($i = 1; $i <= $jmlhalaman; $i++)
+                      if ($i != $halaman) {
+                        echo "
+                       <li class='page-item'><a href=\"orders.php?halaman=$i \" class='page-link'>$i</a></li>
+                       ";
+                      } else {
+                        echo "
+                           <li class='page-item'><a class='page-link'>$i</a></li>
+                           ";
+                      }
+
+                    ?>
+                    <li class="page-item">
+                      <a class="page-link" href="orders.php?halaman=<?= $Next; ?>" aria-label="Next">
+                        <i class="fa fa-angle-right"></i>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Transaksi -->
+
+      <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Detail Order</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="orders.php" method="post">
+
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Nama</label>
+                  <input disabled class="form-control" type="text" value="<?php echo $data_nama ?>" placeholder="Enter Name" maxlength="30" required />
+
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Alamat</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" name="alamat" placeholder="Enter Address" maxlength="500" rows="2"></textarea>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Layanan</label>
+                  <select class="form-control" name="layanan" required>
+                    <?php
+
+                    echo "<option> Pilih Layanan</option>";
+                    $query = mysqli_query($koneksi, "select  id, nama, format(harga,0) as harga from tb_layanan") or die(mysqli_error($koneksi));
+                    while ($row = mysqli_fetch_array($query)) {
+                      echo "<option value=$row[id]> $row[nama] (Rp. $row[harga])</option>";
+                    }
+
+                    ?>
+
+                  </select>
+                </div>
+
+
+
+                <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">Jumlah Sepatu</label>
+                  <input class="form-control" type="text" value="" placeholder="Enter Jumlah" oninput="this.value = this.value.replace(/[^\d]+/, '').replace(/(\..*?)\..*/g, '$1');" maxlength="12" name="jumlah" required />
+
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Penjemputan</label>
+                  <select class="form-control" name="penjemputan" required>
+                    <?php
+
+                    echo "<option> Pilih Penjemputan</option>";
+                    $query = mysqli_query($koneksi, "select id, nama, format(harga,0) as harga from tb_penjemputan") or die(mysqli_error($koneksi));
+                    while ($row = mysqli_fetch_array($query)) {
+                      echo "<option value=$row[id]> $row[nama] (Rp. $row[harga])</option>";
+                    }
+                    ?>
+
+                  </select>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Pengiriman</label>
+                  <select class="form-control" name="pengiriman" required>
+                    <?php
+                    include "../connection/koneksi.php";
+                    echo "<option> Pilih Pengiriman</option>";
+                    $query = mysqli_query($koneksi, "select  id, nama, format(harga,0) as harga from tb_pengiriman") or die(mysqli_error($koneksi));
+                    while ($row = mysqli_fetch_array($query)) {
+                      echo "<option value=$row[id]> $row[nama] (Rp. $row[harga])</option>";
+                    }
+
+                    ?>
+
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Pembayaran</label>
+                  <select class="form-control" name="pembayaran" required>
+                    <?php
+                    include "../connection/koneksi.php";
+                    echo "<option> Pilih Pembayaran</option>";
+                    $query = mysqli_query($koneksi, "select * from tb_pembayaran") or die(mysqli_error($koneksi));
+                    while ($row = mysqli_fetch_array($query)) {
+                      echo "<option value=$row[id]> $row[nama]</option>";
+                    }
+
+                    ?>
+
+                  </select>
+                </div>
+
+                <div class="modal-footer">
+                  <div class="align-middle text-center">
+                    <button class="btn btn-success btn-sm ms-auto" type="submit" name="add-order">Add</button>
+                    <button type="button" class="btn btn-danger btn-sm ms-auto" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- End Transaksi -->
+
+
+      <footer class="footer pt-3">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+              <div class="copyright text-center text-sm text-muted text-lg-start">
+                ©
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                , made with <i class="fa fa-heart"></i> by
+                <a href="#" class="font-weight-bold">Tosepatu Team</a>
+                for a better web.
+              </div>
+            </div>
+            <!-- <div class="col-lg-6">
+              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                </li>
+              </ul>
+            </div> -->
+          </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script>
+    var win = navigator.platform.indexOf("Win") > -1;
+    if (win && document.querySelector("#sidenav-scrollbar")) {
+      var options = {
+        damping: "0.5",
+      };
+      Scrollbar.init(document.querySelector("#sidenav-scrollbar"), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/argon-dashboard.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 </body>
+
 </html>
 
 
+
+<?php
+
+include "../connection/koneksi.php";
+session_start();
+error_reporting(0);
+if (isset($_POST['add-order'])) {
+  // $orderNama = $_POST['nama'];
+  $orderAlamat = $_POST['alamat'];
+  $orderLayanan = $_POST['layanan'];
+  $orderJumlah = $_POST['jumlah'];
+  $orderPenjemputan = $_POST['penjemputan'];
+  $orderPengiriman = $_POST['pengiriman'];
+  $orderPembayaran = $_POST['pembayaran'];
+
+  $query    = "INSERT INTO tb_transaksi SET id = '', id_user = '$data_id', alamat = '$orderAlamat', status = '1', layanan = '$orderLayanan', jumlah = '$orderJumlah', penjemputan = '$orderPenjemputan', pengiriman = '$orderPengiriman', pembayaran = '$orderPembayaran', bukti = '', tanggal = now()";
+  $result   = mysqli_query($koneksi, $query);
+
+
+  if ($result) {
+    echo "<script>
+		Swal.fire({title: 'Data Berhasil Disimpan',text: '',icon: 'success',confirmButtonText: 'OK'
+		}).then((result) => {if (result.value)
+			{window.location = 'orders.php';}
+		})</script>";
+  } else {
+
+    echo "<script>
+			Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+			}).then((result) => {if (result.value)
+				{window.location = 'orders.php';}
+			})</script>";
+  }
+}
+
+?>
+
+
+<?php
+include "../connection/koneksi.php";
+error_reporting(0);
+$idEdit = $_GET['id'];
+$orderAlamatEdit = $_POST['edit-alamat'];
+$orderLayananEdit = $_POST['edit-layanan'];
+$orderJumlahEdit = $_POST['edit-jumlah'];
+$orderPenjemputanEdit = $_POST['edit-penjemputan'];
+$orderPengirimanEdit = $_POST['edit-pengiriman'];
+$orderPembayaranEdit = $_POST['edit-pembayaran'];
+
+if (isset($_POST['edit-order'])) {
+  $sql = mysqli_query($koneksi, "UPDATE tb_transaksi SET alamat = '$orderAlamatEdit', layanan = '$orderLayananEdit', jumlah = '$orderJumlahEdit', penjemputan = '$orderPenjemputanEdit', pengiriman = '$orderPengirimanEdit', pembayaran = '$orderPembayaranEdit', bukti = '', tanggal = now() WHERE id='$idEdit'");
+
+  if ($sql) {
+    echo "<script>
+            Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+            }).then((result) => {if (result.value)
+                {window.location = 'orders.php';}
+            })</script>";
+  } else {
+    echo "<script>
+          Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+          }).then((result) => {if (result.value)
+              {window.location = 'orders.php';}
+          })</script>";
+  }
+}
+
+?>
+
+
+<?php
+include "../connection/koneksi.php";
+error_reporting(0);
+
+
+if (isset($_POST['delete-order'])) {
+
+  if (isset($_POST['delete-order'])) {
+    $querydel = "DELETE FROM tb_transaksi WHERE id = '$_GET[id]' ";
+    $result = mysqli_query($koneksi, $querydel);
+
+
+
+    echo "<script>
+    Swal.fire({title: 'Data Berhasil Dihapus',text: '',icon: 'success',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'orders.php';}
+    })</script>";
+  } else {
+    echo "<script>
+    Swal.fire({title: 'Data Gagal Dihapus',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'orders.php';}
+    })</script>";
+  }
+} else {
+}
+
+
+?>
+
+
+<?php
+
+include "../connection/koneksi.php";
+error_reporting(0);
+$idfoto = $_GET['id'];
+$foto = $_FILES['bukti']['name'];
+$file_tmp = $_FILES['bukti']['tmp_name'];
+move_uploaded_file($file_tmp, '../foto/bukti/' . $foto);
+
+
+if (isset($_POST['add-bukti'])) {
+
+  $hapusngab = "select * from tb_transaksi where id='$idfoto'";
+  $result = mysqli_query($koneksi, $hapusngab);
+  $row = mysqli_fetch_array($result, MYSQLI_BOTH);
+
+  $fotongab = $row['bukti'];
+
+  if (file_exists("../foto/bukti/$fotongab")) {
+    // file_exists("../foto/bukti/$fotongab");
+    unlink("../foto/bukti/$fotongab");
+  }
+
+  $sql = mysqli_query($koneksi, "UPDATE `tb_transaksi` SET bukti = '$foto' WHERE id='$idfoto'");
+
+  if ($sql) {
+
+    echo "<script>
+    Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'orders.php';}
+    })</script>";
+  } else {
+    echo "<script>
+    Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'orders.php';}
+    })</script>";
+  }
+}
+
+
+
+
+?>
+
+
+
+<?php
+
+$iddelbukti = $_GET['id'];
+
+if (isset($_POST['delete-bukti'])) {
+
+  $hapusbukti = "select * from tb_transaksi where id='$iddelbukti'";
+  $result = mysqli_query($koneksi, $hapusbukti);
+  $row = mysqli_fetch_array($result, MYSQLI_BOTH);
+
+  $fotobukti = $row['bukti'];
+  file_exists("../foto/bukti/$fotobukti");
+  unlink("../foto/bukti/$fotobukti");
+
+  $hapusfoto = "UPDATE tb_transaksi SET bukti = '' WHERE tb_transaksi.id ='$iddelbukti'";
+  $result = mysqli_query($koneksi, $hapusfoto);
+
+  echo "<script>
+  Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+  }).then((result) => {if (result.value)
+      {window.location = 'orders.php';}
+  })</script>";
+} else {
+}
+
+?>
 
