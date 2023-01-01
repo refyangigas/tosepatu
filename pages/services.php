@@ -175,7 +175,29 @@ if (isset($_SESSION["ses_username"]) == "") {
               </a>
             </li>
 
-            <!-- Need PHP -->
+            <?php
+            error_reporting(0);
+
+
+            $tampilprofil = ("SELECT * FROM tb_user WHERE id = '$data_id'");
+            $result   = mysqli_query($koneksi, $tampilprofil);
+
+            while ($row = mysqli_fetch_array($result)) {
+
+              $profilName   = $row['nama'];
+
+            ?>
+
+              <li class="nav-item px-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                  <span class="d-sm-inline d-none">Halo, <?php echo $profilName ?></span>
+                </a>
+              </li>
+
+            <?php
+
+            }
+            ?>
 
             
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
@@ -300,7 +322,55 @@ if (isset($_SESSION["ses_username"]) == "") {
                   </thead>
                   <tbody>
 
-                  <!-- Need PHP -->
+                    <?php
+
+                    $batas = 20;
+                    $halaman = @$_GET['halaman'];
+                    if (empty($halaman)) {
+                      $posisi = 0;
+                      $halaman = 1;
+                    } else {
+                      $posisi = ($halaman - 1) * $batas;
+                    }
+
+                    $no = 1 + $posisi;
+
+
+
+                    $data = $_POST['data'];
+
+                    if (isset($_POST['caridata'])) {
+                      $caringab = ("SELECT id, nama, format(harga,0)  as harga FROM tb_layanan WHERE tb_layanan.nama LIKE '" . $data . "%' LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $caringab);
+                    } elseif (isset($_POST['namaasc'])) {
+                      $namaasc = ("SELECT id, nama, format(harga,0) as harga FROM tb_layanan ORDER BY nama asc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $namaasc);
+                    } elseif (isset($_POST['namadesc'])) {
+                      $namadesc = ("SELECT id, nama, format(harga,0) as harga FROM tb_layanan ORDER BY nama desc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $namadesc);
+                    } elseif (isset($_POST['hargaasc'])) {
+                      $totalasc = ("SELECT id, nama, format(harga,0) as harga FROM tb_layanan ORDER BY harga asc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $totalasc);
+                    } elseif (isset($_POST['hargadesc'])) {
+                      $totaldesc = ("SELECT id, nama, format(harga,0) as harga FROM tb_layanan ORDER BY harga desc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $totaldesc);
+                    } else {
+                      $query  = ("SELECT id, nama, format(harga,0) as harga  FROM tb_layanan ORDER BY nama asc LIMIT $posisi, $batas");
+                      $result = mysqli_query($koneksi, $query);
+                    }
+
+
+                    $no     = 1;
+
+
+                    while ($row = mysqli_fetch_array($result)) {
+
+                      $LayananId = $row['id'];
+                      $LayananNama = $row['nama'];
+                      $LayananHarga = $row['harga'];
+
+
+                    ?>
 
                   <tr>
 
@@ -403,7 +473,27 @@ if (isset($_SESSION["ses_username"]) == "") {
 
                       <!-- End Detail Edit -->
 
-                      <!-- Need PHP -->
+                    
+                    <?php
+                      // $no++;
+                    }
+
+
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+
+              <?php
+              $ngab = mysqli_query($koneksi, "SELECT * FROM tb_layanan ORDER BY nama asc");
+              $hitung = $ngab->fetch_all(MYSQLI_ASSOC);
+              $jmldata = $hitung[0]['id'];
+              $jmlhalaman = ceil($jmldata / $batas);
+
+              $Previous = $halaman - 1;
+              $Next = $halaman + 1;
+
+              ?>
 
                       <div class="my-4 ms-2 me-2">
                 <nav aria-label="Page navigation example">
@@ -415,7 +505,19 @@ if (isset($_SESSION["ses_username"]) == "") {
                       </a>
                     </li>
 
-                    <!-- Need PHP --> 
+                    <?php
+                    for ($i = 1; $i <= $jmlhalaman; $i++)
+                      if ($i != $halaman) {
+                        echo "
+                       <li class='page-item'><a href=\"orders.php?halaman=$i \" class='page-link'>$i</a></li>
+                       ";
+                      } else {
+                        echo "
+                           <li class='page-item'><a class='page-link'>$i</a></li>
+                           ";
+                      }
+
+                    ?>
 
                     <li class="page-item">
                       <a class="page-link" href="orders.php?halaman=<?= $Next; ?>" aria-label="Next">
@@ -466,7 +568,56 @@ if (isset($_SESSION["ses_username"]) == "") {
                   </thead>
                   <tbody>
 
-                  <!-- Need PHP -->
+                  <?php
+
+                    $batas = 20;
+                    $halaman = @$_GET['halaman'];
+                    if (empty($halaman)) {
+                      $posisi = 0;
+                      $halaman = 1;
+                    } else {
+                      $posisi = ($halaman - 1) * $batas;
+                    }
+
+                    $no = 1 + $posisi;
+
+
+
+                    $data = $_POST['data'];
+
+                    if (isset($_POST['caridata'])) {
+                      $caringab = ("SELECT id, nama, format(harga,0)  as harga FROM tb_pengiriman WHERE tb_pengiriman.nama LIKE '" . $data . "%' LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $caringab);
+                    } elseif (isset($_POST['namaasc'])) {
+                      $namaasc = ("SELECT id, nama, format(harga,0) as harga FROM tb_pengiriman ORDER BY nama asc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $namaasc);
+                    } elseif (isset($_POST['namadesc'])) {
+                      $namadesc = ("SELECT id, nama, format(harga,0) as harga FROM tb_pengiriman ORDER BY nama desc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $namadesc);
+                    } elseif (isset($_POST['hargaasc'])) {
+                      $totalasc = ("SELECT id, nama, format(harga,0) as harga FROM tb_pengiriman ORDER BY harga asc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $totalasc);
+                    } elseif (isset($_POST['hargadesc'])) {
+                      $totaldesc = ("SELECT id, nama, format(harga,0) as harga FROM tb_pengiriman ORDER BY harga desc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $totaldesc);
+                    } else {
+                      $query  = ("SELECT id, nama, format(harga,0) as harga  FROM tb_pengiriman ORDER BY nama asc LIMIT $posisi, $batas");
+                      $result = mysqli_query($koneksi, $query);
+                    }
+
+
+                    $no     = 1;
+
+
+                    while ($row = mysqli_fetch_array($result)) {
+
+                      $PengirimanId = $row['id'];
+                      $PengirimanNama = $row['nama'];
+                      $PengirimanHarga = $row['harga'];
+
+
+                    ?>
+
 
                   <tr>
 
@@ -569,7 +720,27 @@ if (isset($_SESSION["ses_username"]) == "") {
 
                       <!-- End Detail Edit -->
 
-                      <!-- Need PPHP --> 
+                      <?php
+                      // $no++;
+                    }
+
+
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+
+              <?php
+              $ngab = mysqli_query($koneksi, "SELECT * FROM tb_pengiriman ORDER BY nama asc");
+              $hitung = $ngab->fetch_all(MYSQLI_ASSOC);
+              $jmldata = $hitung[0]['id'];
+              $jmlhalaman = ceil($jmldata / $batas);
+
+              $Previous = $halaman - 1;
+              $Next = $halaman + 1;
+
+              ?>
+
 
             <div class="my-4 ms-2 me-2">
                 <nav aria-label="Page navigation example">
@@ -581,7 +752,19 @@ if (isset($_SESSION["ses_username"]) == "") {
                       </a>
                     </li>
 
-                    <!-- Need PHP --> 
+                    <?php
+                    for ($i = 1; $i <= $jmlhalaman; $i++)
+                      if ($i != $halaman) {
+                        echo "
+                       <li class='page-item'><a href=\"orders.php?halaman=$i \" class='page-link'>$i</a></li>
+                       ";
+                      } else {
+                        echo "
+                           <li class='page-item'><a class='page-link'>$i</a></li>
+                           ";
+                      }
+
+                    ?>
 
                     <li class="page-item">
                       <a class="page-link" href="orders.php?halaman=<?= $Next; ?>" aria-label="Next">
@@ -634,7 +817,55 @@ if (isset($_SESSION["ses_username"]) == "") {
                   </thead>
                   <tbody>
                 
-                  <!-- Need PHP -->
+                <?php
+
+                    $batas = 20;
+                    $halaman = @$_GET['halaman'];
+                    if (empty($halaman)) {
+                      $posisi = 0;
+                      $halaman = 1;
+                    } else {
+                      $posisi = ($halaman - 1) * $batas;
+                    }
+
+                    $no = 1 + $posisi;
+
+
+
+                    $data = $_POST['data'];
+
+                    if (isset($_POST['caridata'])) {
+                      $caringab = ("SELECT id, nama, format(harga,0)  as harga FROM tb_penjemputan WHERE tb_penjemputan.nama LIKE '" . $data . "%' LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $caringab);
+                    } elseif (isset($_POST['namaasc'])) {
+                      $namaasc = ("SELECT id, nama, format(harga,0) as harga FROM tb_penjemputan ORDER BY nama asc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $namaasc);
+                    } elseif (isset($_POST['namadesc'])) {
+                      $namadesc = ("SELECT id, nama, format(harga,0) as harga FROM tb_penjemputan ORDER BY nama desc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $namadesc);
+                    } elseif (isset($_POST['hargaasc'])) {
+                      $totalasc = ("SELECT id, nama, format(harga,0) as harga FROM tb_penjemputan ORDER BY harga asc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $totalasc);
+                    } elseif (isset($_POST['hargadesc'])) {
+                      $totaldesc = ("SELECT id, nama, format(harga,0) as harga FROM tb_penjemputan ORDER BY harga desc LIMIT $posisi, $batas");
+                      $result   = mysqli_query($koneksi, $totaldesc);
+                    } else {
+                      $query  = ("SELECT id, nama, format(harga,0) as harga  FROM tb_penjemputan ORDER BY nama asc LIMIT $posisi, $batas");
+                      $result = mysqli_query($koneksi, $query);
+                    }
+
+
+                    $no     = 1;
+
+
+                    while ($row = mysqli_fetch_array($result)) {
+
+                      $PenjemputanId = $row['id'];
+                      $PenjemputanNama = $row['nama'];
+                      $PenjemputanHarga = $row['harga'];
+
+
+                    ?>
 
                    <tr>
 
@@ -737,7 +968,27 @@ if (isset($_SESSION["ses_username"]) == "") {
 
                       <!-- End Detail Edit -->
 
-                      <!-- Need PHP -->
+                      <?php
+                      // $no++;
+                    }
+
+
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+
+              <?php
+              $ngab = mysqli_query($koneksi, "SELECT * FROM tb_penjemputan ORDER BY nama asc");
+              $hitung = $ngab->fetch_all(MYSQLI_ASSOC);
+              $jmldata = $hitung[0]['id'];
+              $jmlhalaman = ceil($jmldata / $batas);
+
+              $Previous = $halaman - 1;
+              $Next = $halaman + 1;
+
+              ?>
+
 
              <div class="my-4 ms-2 me-2">
                 <nav aria-label="Page navigation example">
@@ -749,7 +1000,19 @@ if (isset($_SESSION["ses_username"]) == "") {
                       </a>
                     </li>
 
-                    <!-- Need PHP -->
+                    <?php
+                    for ($i = 1; $i <= $jmlhalaman; $i++)
+                      if ($i != $halaman) {
+                        echo "
+                       <li class='page-item'><a href=\"orders.php?halaman=$i \" class='page-link'>$i</a></li>
+                       ";
+                      } else {
+                        echo "
+                           <li class='page-item'><a class='page-link'>$i</a></li>
+                           ";
+                      }
+
+                    ?>
 
                     <li class="page-item">
                       <a class="page-link" href="orders.php?halaman=<?= $Next; ?>" aria-label="Next">
@@ -930,8 +1193,6 @@ if (isset($_SESSION["ses_username"]) == "") {
       </footer>
     </div>
   </main>
-
-  <!-- Need PHP --> 
 
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
