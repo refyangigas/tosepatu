@@ -1192,7 +1192,7 @@ if (isset($_SESSION["ses_username"]) == "") {
         </div>
       </footer>
     </div>
-  </main>
+  </main> 
 
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
@@ -1217,3 +1217,287 @@ if (isset($_SESSION["ses_username"]) == "") {
 </body>
 
 </html>
+
+<!--query layanan -->
+
+
+<?php
+
+include "../connection/koneksi.php";
+error_reporting(0);
+$id = $_GET['id'];
+$NamaLayananEdit = $_POST['edit-nama'];
+$HargaLayananEdit = $_POST['edit-harga'];
+
+if (isset($_POST['edit-layanan'])) {
+  $sql = mysqli_query($koneksi, "UPDATE tb_layanan SET nama='$NamaLayananEdit', harga = '$HargaLayananEdit' WHERE id='$id'");
+
+  if ($sql) {
+    echo "<script>
+            Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+            }).then((result) => {if (result.value)
+                {window.location = 'services.php';}
+            })</script>";
+  } else {
+    echo "<script>
+          Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+          }).then((result) => {if (result.value)
+              {window.location = 'services.php';}
+          })</script>";
+  }
+}
+
+?>
+
+
+<?php
+
+include "../connection/koneksi.php";
+session_start();
+error_reporting(0);
+if (isset($_POST['tambah-layanan'])) {
+  // $orderNama = $_POST['nama'];
+  $NamaLayanan = $_POST['nama'];
+  $HargaLayanan = $_POST['harga'];
+
+  $query    = "INSERT INTO tb_layanan SET id = '', nama = '$NamaLayanan', harga = '$HargaLayanan'";
+  $result   = mysqli_query($koneksi, $query);
+
+
+  if ($result) {
+    echo "<script>
+		Swal.fire({title: 'Data Berhasil Disimpan',text: '',icon: 'success',confirmButtonText: 'OK'
+		}).then((result) => {if (result.value)
+			{window.location = 'services.php';}
+		})</script>";
+  } else {
+
+    echo "<script>
+			Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+			}).then((result) => {if (result.value)
+				{window.location = 'services.php';}
+			})</script>";
+  }
+}
+
+?>
+
+
+<?php
+include "../connection/koneksi.php";
+error_reporting(0);
+
+if (isset($_POST['delete-layanan'])) {
+
+  if (isset($_POST['delete-layanan'])) {
+    $querydel = "DELETE FROM tb_layanan WHERE id = '$_GET[id]' ";
+    $result = mysqli_query($koneksi, $querydel);
+
+    echo "<script>
+    Swal.fire({title: 'Data Berhasil Dihapus',text: '',icon: 'success',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'services.php';}
+    })</script>";
+  } else {
+    echo "<script>
+    Swal.fire({title: 'Data Gagal Dihapus',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'services.php';}
+    })</script>";
+  }
+} else {
+}
+
+
+?>
+
+<!-- end query layanan -->
+
+
+<!--query pengiriman -->
+
+<?php
+
+include "../connection/koneksi.php";
+session_start();
+error_reporting(0);
+if (isset($_POST['tambah-pengiriman'])) {
+  // $orderNama = $_POST['nama'];
+  $NamaPengiriman = $_POST['nama-pengiriman'];
+  $HargaPengiriman = $_POST['harga-pengiriman'];
+
+  $query    = "INSERT INTO tb_pengiriman SET id = '', nama = '$NamaPengiriman', harga = '$HargaPengiriman'";
+  $result   = mysqli_query($koneksi, $query);
+
+
+  if ($result) {
+    echo "<script>
+		Swal.fire({title: 'Data Berhasil Disimpan',text: '',icon: 'success',confirmButtonText: 'OK'
+		}).then((result) => {if (result.value)
+			{window.location = 'services.php';}
+		})</script>";
+  } else {
+
+    echo "<script>
+			Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+			}).then((result) => {if (result.value)
+				{window.location = 'services.php';}
+			})</script>";
+  }
+}
+
+?>
+
+
+<?php
+
+include "../connection/koneksi.php";
+error_reporting(0);
+$id = $_GET['id'];
+$NamaPengirimanEdit = $_POST['edit-pengiriman-nama'];
+$HargaPengirimanEdit = $_POST['edit-pengiriman-harga'];
+
+if (isset($_POST['edit-pengiriman'])) {
+  $sql = mysqli_query($koneksi, "UPDATE tb_pengiriman SET nama='$NamaPengirimanEdit', harga = '$HargaPengirimanEdit' WHERE id='$id'");
+
+  if ($sql) {
+    echo "<script>
+            Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+            }).then((result) => {if (result.value)
+                {window.location = 'services.php';}
+            })</script>";
+  } else {
+    echo "<script>
+          Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+          }).then((result) => {if (result.value)
+              {window.location = 'services.php';}
+          })</script>";
+  }
+}
+
+?>
+
+
+<?php
+include "../connection/koneksi.php";
+error_reporting(0);
+
+if (isset($_POST['delete-pengiriman'])) {
+
+  if (isset($_POST['delete-pengiriman'])) {
+    $querydel = "DELETE FROM tb_pengiriman WHERE id = '$_GET[id]' ";
+    $result = mysqli_query($koneksi, $querydel);
+
+    echo "<script>
+    Swal.fire({title: 'Data Berhasil Dihapus',text: '',icon: 'success',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'services.php';}
+    })</script>";
+  } else {
+    echo "<script>
+    Swal.fire({title: 'Data Gagal Dihapus',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'services.php';}
+    })</script>";
+  }
+} else {
+}
+
+
+?>
+
+<!-- end query pengiriman -->
+
+
+<!--query penjemputan -->
+
+<?php
+
+include "../connection/koneksi.php";
+session_start();
+error_reporting(0);
+if (isset($_POST['tambah-penjemputan'])) {
+  // $orderNama = $_POST['nama'];
+  $NamaPenjemputan = $_POST['nama-penjemputan'];
+  $HargaPenjemputan = $_POST['harga-penjemputan'];
+
+  $query    = "INSERT INTO tb_penjemputan SET id = '', nama = '$NamaPenjemputan', harga = '$HargaPenjemputan'";
+  $result   = mysqli_query($koneksi, $query);
+
+
+  if ($result) {
+    echo "<script>
+		Swal.fire({title: 'Data Berhasil Disimpan',text: '',icon: 'success',confirmButtonText: 'OK'
+		}).then((result) => {if (result.value)
+			{window.location = 'services.php';}
+		})</script>";
+  } else {
+
+    echo "<script>
+			Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+			}).then((result) => {if (result.value)
+				{window.location = 'services.php';}
+			})</script>";
+  }
+}
+
+?>
+
+<?php
+
+include "../connection/koneksi.php";
+error_reporting(0);
+$id = $_GET['id'];
+$NamaPenjemputanEdit = $_POST['edit-penjemputan-nama'];
+$HargaPenjemputanEdit = $_POST['edit-penjemputan-harga'];
+
+if (isset($_POST['edit-penjemputan'])) {
+  $sql = mysqli_query($koneksi, "UPDATE tb_penjemputan SET nama='$NamaPenjemputanEdit', harga = '$HargaPenjemputanEdit' WHERE id='$id'");
+
+  if ($sql) {
+    echo "<script>
+            Swal.fire({title: 'Data Berhasil Diubah',text: '',icon: 'success',confirmButtonText: 'OK'
+            }).then((result) => {if (result.value)
+                {window.location = 'services.php';}
+            })</script>";
+  } else {
+    echo "<script>
+          Swal.fire({title: 'Data Gagal Disimpan',text: '',icon: 'error',confirmButtonText: 'OK'
+          }).then((result) => {if (result.value)
+              {window.location = 'services.php';}
+          })</script>";
+  }
+}
+
+?>
+
+
+<?php
+include "../connection/koneksi.php";
+error_reporting(0);
+
+if (isset($_POST['delete-penjemputan'])) {
+
+  if (isset($_POST['delete-penjemputan'])) {
+    $querydel = "DELETE FROM tb_penjemputan WHERE id = '$_GET[id]' ";
+    $result = mysqli_query($koneksi, $querydel);
+
+    echo "<script>
+    Swal.fire({title: 'Data Berhasil Dihapus',text: '',icon: 'success',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'services.php';}
+    })</script>";
+  } else {
+    echo "<script>
+    Swal.fire({title: 'Data Gagal Dihapus',text: '',icon: 'error',confirmButtonText: 'OK'
+    }).then((result) => {if (result.value)
+        {window.location = 'services.php';}
+    })</script>";
+  }
+} else {
+}
+
+
+?>
+
+<!-- end query penjemputan -->
