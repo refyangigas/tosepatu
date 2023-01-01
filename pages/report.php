@@ -166,3 +166,52 @@ if (isset($_SESSION["ses_username"]) == "") {
                 </div>
               </a>
             </li>
+            <?php
+            error_reporting(0);
+
+
+            $tampilprofil = ("SELECT * FROM tb_user WHERE id = '$data_id'");
+            $result   = mysqli_query($koneksi, $tampilprofil);
+
+            while ($row = mysqli_fetch_array($result)) {
+
+              $profilName   = $row['nama'];
+
+            ?>
+
+              <li class="nav-item px-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                  <span class="d-sm-inline d-none">Halo, <?php echo $profilName ?></span>
+                </a>
+              </li>
+
+            <?php
+
+            }
+            ?>
+
+<li class="nav-item dropdown pe-2 d-flex align-items-center">
+              <a href="#" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-chevron-circle-down cursor-pointer"></i>
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+
+                <li class="dropdown-item d-flex align-items-center">
+                  <a href="profile.php" class="dropdown-item">
+                    <i class="fa fa-user fixed-plugin-button-nav cursor-pointer"></i> Profile
+                  </a>
+
+                </li>
+                <li class="dropdown-item d-flex align-items-center">
+                  <a href="logout.php" class="dropdown-item">
+                    <i class="fa fa-sign-out cursor-pointer"></i> Logout
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
