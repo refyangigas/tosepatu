@@ -215,3 +215,138 @@ if (isset($_SESSION["ses_username"]) == "") {
       </div>
     </nav>
     <!-- End Navbar -->
+
+    <div class="card shadow-lg mx-4 mt-3">
+      <div class="card-body">
+        <div class="row gx-4">
+
+          <div class="dropdown col-auto">
+            <form class="" action="" method="post">
+              <button class="btn btn-sm bg-gradient-dark dropdown-toggle mb-1 px-3" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Sort By
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item" name="namaasc" type="submit"> Nama Asc (A-Z)</button>
+                <button class="dropdown-item" name="namadesc" type="submit"> Nama Desc (Z-A)</button>
+                <button class="dropdown-item" name="totalasc" type="submit">Total Desc (A-Z)</button>
+                <button class="dropdown-item" name="totaldesc" type="submit">Total Asc (Z-A)</button>
+              </ul>
+            </form>
+
+          </div>
+
+          <div class="dropdown col-auto">
+            <form class="" action="" method="post">
+              <button class="btn btn-sm bg-gradient-dark dropdown-toggle mb-1 px-3" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Status
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item" name="belum-bayar" type="submit">Belum Bayar</button>
+                <button class="dropdown-item" name="pengerjaan" type="submit">Pengerjaan</button>
+                <button class="dropdown-item" name="selesai" type="submit">Selesai</button>
+                <button class="dropdown-item" name="gagal" type="submit">Gagal</button>
+              </ul>
+            </form>
+
+          </div>
+
+          <form class="row gx-4" action="" method="post">
+            <div class="dropdown col-auto">
+
+              <div class="form-group">
+                <input class="form-control btn btn-sm bg-gradient-white mb-1 px-3" value="<?php if (isset($_POST['from_date'])) {
+                                                                                            echo $_POST['from_date'];
+                                                                                          }  ?>" type="date" name="from_date" />
+
+              </div>
+
+            </div>
+            <div class="dropdown col-auto">
+
+              <button class="btn btn-sm bg-gradient-white mb-1 px-3" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                To Date
+              </button>
+
+            </div>
+
+            <div class="dropdown col-auto">
+
+              <div class="form-group">
+                <input class="form-control btn btn-sm bg-gradient-white mb-1 px-3" value="<?php if (isset($_POST['to_date'])) {
+                                                                                            echo $_POST['to_date'];
+                                                                                          }  ?>" type="date" name="to_date" />
+
+              </div>
+
+            </div>
+
+
+            <div class="dropdown col-auto">
+
+              <button class="btn btn-sm bg-gradient-dark mb-1 px-3" type="submit" aria-expanded="false">
+                Filter
+              </button>
+
+
+            </div>
+
+            <div class="dropdown col-auto">
+
+              <a href="export_transaksi.php" target=”_blank” class="btn btn-sm bg-gradient-dark mb-1 px-3" aria-expanded="false"> Export</a>
+
+            </div>
+
+
+
+
+            <div class="col-lg-4 col-md-6 me-sm-10 mx-auto mt-0">
+              <div class="nav-wrapper position-relative end-0">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                  <!-- <form class="input-group" action="" method="post"> -->
+                  <div class="input-group">
+                    <input type="text" class="form-control ms-4" name="data" placeholder="Type here..." aria-label="Type here..." aria-describedby="button-addon2">
+                    <button class="btn bg-gradient-dark  mb-0" name="caridata" type="submit" id="button-addon2">
+                      <i class="fas fa-search" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <!-- </form> -->
+                  </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <div class="d-flex align-items-center">
+                <h6>Report table</h6>
+
+                <?php
+
+
+                if (isset($_POST['from_date']) && isset($_POST['to_date'])) {
+                  $from_date = $_POST['from_date'];
+                  $to_date = $_POST['to_date'];
+
+                  $filter_dek = ("SELECT COUNT(tb_transaksi.id) AS jml_transaksi, format(SUM(tb_layanan.harga * tb_transaksi.jumlah + tb_penjemputan.harga + tb_pengiriman.harga),0) as total_jumlah FROM tb_transaksi INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_status ON tb_status.id=tb_transaksi.status WHERE tb_status.nama = 'selesai' AND tb_transaksi.tanggal BETWEEN '$from_date' AND '$to_date'");
+                  $result   = mysqli_query($koneksi, $filter_dek);
+                } else {
+                  $reportcuy = ("SELECT COUNT(tb_transaksi.id) AS jml_transaksi, format(SUM(tb_layanan.harga * tb_transaksi.jumlah + tb_penjemputan.harga + tb_pengiriman.harga),0) as total_jumlah FROM tb_transaksi INNER JOIN tb_layanan ON tb_layanan.id=tb_transaksi.layanan INNER JOIN tb_penjemputan ON tb_penjemputan.id=tb_transaksi.penjemputan INNER JOIN tb_pengiriman ON tb_pengiriman.id=tb_transaksi.pengiriman INNER JOIN tb_status ON tb_status.id=tb_transaksi.status WHERE tb_status.nama = 'selesai'");
+                  $result   = mysqli_query($koneksi, $reportcuy);
+                }
+
+
+
+                while ($row = mysqli_fetch_array($result)) {
+
+                  $JumlahTransaksi = $row['jml_transaksi'];
+                  $TotalJumlah = $row['total_jumlah'];
+
+
+                ?>
