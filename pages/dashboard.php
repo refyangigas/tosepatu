@@ -277,7 +277,7 @@ if ($data_role == '1') {
 
           </li>
           <li class="dropdown-item d-flex align-items-center">
-            <a href="index.php" class="dropdown-item">
+            <a href="logout.php" class="dropdown-item">
               <i class="fa fa-sign-out cursor-pointer"></i> Logout
             </a>
           </li>
