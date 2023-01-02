@@ -297,7 +297,8 @@ if (isset($_SESSION["ses_username"]) == "") {
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
                 <h6>Orders table</h6>
-                <button class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#modal-bayar">Bayar</button>
+                <button class="btn btn-secondary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#modal-lokasi">Lokasi</button>
+                <button class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#modal-bayar">Bayar</button>
                 <button class="btn btn-success btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#modal-tambah">Order</button>
               </div>
             </div>
@@ -819,6 +820,44 @@ if (isset($_SESSION["ses_username"]) == "") {
 
 
 <!-- End Detail Bukti -->
+
+<!-- Modal Detail Lokasi -->
+<div class="modal fade" id="modal-lokasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detail Lokasi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="form-group align-middle text-center">
+        <!-- <img src="../foto/bukti/dana/p.jpg" alt="bukti ngab" class="w-80 border-radius-lg shadow-sm" /> -->
+        <iframe src="https://www.google.com/maps/embed?pb=!4v1672684972260!6m8!1m7!1s9vWNs6TLoad4id-QzVe29A!2m2!1d-8.153017111943972!2d113.7241640552772!3f159.84749126891484!4f-11.70856957946171!5f0.7820865974627469" width="450" height="560" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <div class="form-group align-middle text-center">
+      <a class='btn btn-warning btn-sm ms-auto' target="_blank" href="https://goo.gl/maps/PmgYohiHwDJszNvSA">Cek</a>
+    
+      </div>
+
+
+      <div class="modal-footer">
+        <div class="align-middle text-center">
+
+          <button type="button" class="btn btn-danger btn-sm ms-auto" data-bs-dismiss="modal">Close</button>
+        </div>
+        <!-- <button type="button" class="btn bg-gradient-primary">Save changes</button> -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- End Detail Lokasi -->
 
 
 <!-- Modal Detail Bayar -->
