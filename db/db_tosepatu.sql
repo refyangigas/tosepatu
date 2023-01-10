@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2022 at 03:29 PM
+-- Generation Time: Jan 09, 2023 at 07:58 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -181,6 +181,8 @@ CREATE TABLE `tb_transaksi` (
   `pengiriman` int(2) NOT NULL,
   `pembayaran` int(2) NOT NULL,
   `bukti` varchar(50) DEFAULT NULL,
+  `ulasan` varchar(1000) NOT NULL,
+  `foto_ulasan` varchar(1000) NOT NULL,
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -188,16 +190,18 @@ CREATE TABLE `tb_transaksi` (
 -- Dumping data for table `tb_transaksi`
 --
 
-INSERT INTO `tb_transaksi` (`id`, `id_user`, `alamat`, `status`, `layanan`, `jumlah`, `penjemputan`, `pengiriman`, `pembayaran`, `bukti`, `tanggal`) VALUES
-(8, 2, 'Probolinggo', 1, 2, 1, 1, 2, 2, '', '2022-12-01'),
-(11, 2, 'Jember', 1, 2, 1, 1, 2, 2, '', '2022-12-08'),
-(12, 6, 'Jember', 4, 2, 2, 1, 2, 2, '', '2022-12-05'),
-(13, 6, 'Cempaka ', 3, 2, 3, 1, 2, 1, '', '2022-12-07'),
-(14, 11, 'Sumenep', 3, 3, 50, 2, 1, 2, '', '2022-12-09'),
-(15, 5, 'Situbondo', 3, 3, 100, 2, 2, 2, '', '2022-12-11'),
-(16, 6, 'Ambulu', 1, 3, 2, 1, 2, 1, '', '2022-12-14'),
-(17, 6, 'Mangli', 1, 3, 1, 2, 1, 2, '', '2022-12-12'),
-(18, 6, 'Mastrip', 3, 2, 1, 1, 1, 2, 'bjorka.jpg', '2022-12-14');
+INSERT INTO `tb_transaksi` (`id`, `id_user`, `alamat`, `status`, `layanan`, `jumlah`, `penjemputan`, `pengiriman`, `pembayaran`, `bukti`, `ulasan`, `foto_ulasan`, `tanggal`) VALUES
+(8, 2, 'Probolinggo', 1, 2, 1, 1, 2, 2, '', 'kek kontol', '0', '2022-12-01'),
+(11, 2, 'Jember', 1, 2, 1, 1, 2, 2, '', '', '0', '2022-12-08'),
+(12, 6, 'Jember', 4, 2, 2, 1, 2, 2, '', '', '0', '2022-12-05'),
+(13, 6, 'Cempaka ', 3, 2, 3, 1, 2, 1, '', '', '0', '2022-12-07'),
+(14, 11, 'Sumenep', 3, 3, 50, 2, 1, 2, '', '', '0', '2022-12-09'),
+(15, 5, 'Situbondo', 3, 3, 100, 2, 2, 2, '', 'bersih mas, makasih ya, lov u mas kontol', 'icon_login.png', '2022-12-11'),
+(16, 6, 'Ambulu', 1, 3, 2, 1, 2, 1, '', '', '0', '2022-12-14'),
+(17, 6, 'Mangli', 1, 3, 1, 2, 1, 2, '', '', '0', '2022-12-12'),
+(18, 6, 'Mastrip', 3, 2, 1, 1, 1, 2, 'bjorka.jpg', '', '0', '2022-12-14'),
+(19, 2, 'Kontrakan Pak Ribut', 1, 2, 5, 1, 2, 2, '', '', '0', '2023-01-01'),
+(20, 5, 'sby', 1, 2, 1, 1, 2, 2, '', '', '', '2023-01-08');
 
 -- --------------------------------------------------------
 
@@ -219,7 +223,7 @@ CREATE TABLE `tb_user` (
 
 INSERT INTO `tb_user` (`id`, `nama`, `username`, `password`, `role`) VALUES
 (1, 'root', 'root', 'root', 1),
-(2, 'Ilham Ibnu Ahmad', 'ilham', 'ilham', 2),
+(2, 'Ilham Ibnu Ahmad', 'ilham', '1', 2),
 (5, 'Rijal Khoirul Anam', 'rijal', '123', 2),
 (6, 'Akbar Kusnadi ', 'akbar', '1', 2),
 (11, 'Achmad Zakaria', 'arya123', 'arya', 2);
@@ -341,7 +345,7 @@ ALTER TABLE `tb_status`
 -- AUTO_INCREMENT for table `tb_transaksi`
 --
 ALTER TABLE `tb_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
