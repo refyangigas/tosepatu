@@ -1,8 +1,8 @@
 <?php
 $server = "localhost";
-$username = "wsmifbid_mecherateam";
-$password = "Polije1234";
-$db = "wsmifbid_mecherateam";
+$username = "root";
+$password = "";
+$db = "db_tosepatu";
 $koneksi = mysqli_connect($server, $username, $password, $db);
 
 if (mysqli_connect_errno()) {
